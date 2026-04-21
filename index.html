@@ -3,11 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Bouquet for Angel P. </title>
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
+<title>✨ Bouquet for Angel P. ✨</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -18,6 +14,41 @@
     overflow-x: hidden;
     font-family: 'Quicksand', sans-serif;
     cursor: default;
+  }
+
+  .music-toggle {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(20, 15, 40, 0.45);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(253, 230, 138, 0.3);
+    color: #fde68a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    font-size: 22px;
+  }
+  .music-toggle:hover {
+    background: rgba(167, 139, 250, 0.3);
+    border-color: rgba(253, 230, 138, 0.7);
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(253,230,138,0.2);
+  }
+  
+  .music-toggle.hint-pulse {
+    animation: softPulse 2s ease-in-out 3;
+  }
+  @keyframes softPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 0 25px rgba(253,230,138,0.5); }
   }
 
   .stars {
@@ -340,13 +371,25 @@
 </head>
 <body>
 
+<!-- 🎵 Music Toggle Button -->
+<div class="music-toggle hint-pulse" id="musicToggle" title="Click to play music">
+  🔊
+</div>
+
+<!-- 🎵 Hidden Audio Element -->
+<audio id="bgMusic" loop preload="auto">
+
+  <source src="bg-music-bouquet.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
 <div class="stars" id="stars"></div>
 <div class="moon"></div>
 
 <div class="scene">
   <div class="title-area">
     <h1>For Angel P.🌙</h1>
-    <p>Digital Bouquet Made By <span class="highlight">Your Boyfriend</span> 💘</p>
+    <p>Digital Bouquet Made By Your <span class="highlight">Boyfriend</span> 💘</p>
   </div>
 
   <div class="bouquet-wrap" id="bouquetWrap">
@@ -625,7 +668,7 @@
   <!-- DOUBLE‑CLICK HINT -->
   <div class="hint-message">Hint: double‑click the largest flower ✨</div>
 
-  <button class="letter-btn" id="letterBtn" onclick="openLetter()">✦ Read this letter I made for you ✦</button>
+  <button class="letter-btn" id="letterBtn" onclick="openLetter()">✦ Read my letter to you ✦</button>
   <div class="bottom-name">Angel Acevedo Pobadora ✦ with all my love</div>
 </div>
 
@@ -641,12 +684,12 @@
       <p>My sweet and pretty babi,</p>
       <p>I made this little something po <span class="tagalog">para sa 'yo</span>, I hope you'll like it 😔, you deserve all the good and every beautiful thing this world has to offer.</p>
       <p>I wish I could give you real bouquet rn po pero pahabol ko nalang yon soon po, am sorry T^T but until then babii ko, please know that I made this bouquet with you in my mind and heart, every petal represents on how you made my life shine when you stepped into it. Eto muna po, and I hope it still makes you smile :3</p>
-      <p>There are no exact/right words that could perfectly describe how grateful I am that you came and exist in my life my girlfriend. You walked in and somehow made everything brighter, warmer, and more worth living for. You are not just someone that I love, you are someone who has made me better simply by being you.</p>
+      <p>There are no exact/right words that could perfectly describe how grateful I am that you came and exist in my life my girlfriend 🥹. You walked in and somehow made everything brighter, warmer, and more worth living for. You are not just someone that I love, you are someone who has made me better simply by being you.</p>
       <p style="font-size:1.25rem;color:#fde68a;text-align:center;margin:20px 0;text-shadow:0 0 15px rgba(253,230,138,0.5);">I LOVE YOU SO SO MUCH. 🌙</p>
       <p>There's nothing that could ever stop me from showing you how much I love and care for you, my babi. Not the distance, not the budget, not even my busy schedule. My love for you has only grown stronger since the day we first met, up to this day. <span class="tagalog">Mahal na mahal kita always po, babi ko.</span> Let's explore this life and our future together, side by side, okay po? through ups and down, I'll be with you as long as you allow me to. I LOVE YOU SO MUCH MY ANGEL 🥹.</p>
       <p>This digital bouquet is a token of appreciation and my first gift to you as my official girlfriend po 😚 You can access this anywhere and anytime you want po.</p>
     </div>
-    <div class="letter-sig">— mon amour, A.L.R ✦</div>
+    <div class="letter-sig">— yours always ✦</div>
   </div>
 </div>
 
@@ -779,6 +822,62 @@
     document.addEventListener('mousedown', (e) => {
       if (e.target.closest('#centerRose')) e.preventDefault();
     });
+
+    // --- 7. 🎵 BACKGROUND MUSIC LOGIC (Autoplay muted, user unmutes) ---
+    const bgMusic = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+    
+    if (bgMusic && musicToggle) {
+      // Attempt to autoplay muted as soon as possible
+      bgMusic.muted = true;
+      bgMusic.volume = 0.5; // Set to a pleasant, non-intrusive volume
+      
+      const playPromise = bgMusic.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          // Autoplay muted succeeded
+          musicToggle.innerHTML = '🔇'; // Show muted icon
+          musicToggle.title = 'Click to play music';
+        }).catch(error => {
+          // Autoplay was blocked (common on some mobile browsers without interaction)
+          console.log('Autoplay blocked, waiting for user interaction:', error);
+          musicToggle.innerHTML = '🔇';
+          musicToggle.title = 'Click to play music';
+          // We'll wait for the user to click the toggle to start playback
+        });
+      }
+
+      // Toggle mute/unmute and play on first click
+      musicToggle.addEventListener('click', function() {
+        if (bgMusic.paused) {
+          // If it's paused (likely due to autoplay block), play it muted first
+          bgMusic.muted = true;
+          bgMusic.play().then(() => {
+            bgMusic.muted = false; // Immediately unmute for user
+            musicToggle.innerHTML = '🔊';
+            musicToggle.title = 'Click to mute music';
+            musicToggle.classList.remove('hint-pulse');
+          }).catch(err => {
+            console.error('Playback failed:', err);
+          });
+        } else {
+          // It's playing, so just toggle the muted state
+          bgMusic.muted = !bgMusic.muted;
+          if (bgMusic.muted) {
+            musicToggle.innerHTML = '🔇';
+            musicToggle.title = 'Click to play music';
+          } else {
+            musicToggle.innerHTML = '🔊';
+            musicToggle.title = 'Click to mute music';
+          }
+        }
+      });
+
+      // Add a subtle hint pulse to the button on first load
+      setTimeout(() => {
+        musicToggle.classList.add('hint-pulse');
+      }, 500);
+    }
   })();
 </script>
 </body>
