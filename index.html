@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Digital Bouquet - Angel A.P. </title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Bouquet for Angel P. </title>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -80,6 +84,14 @@
     text-transform: uppercase;
     margin-top: 6px;
   }
+  /* Highlight "Boyfriend" */
+  .title-area .highlight {
+    color: #fde68a;
+    font-weight: 500;
+    text-shadow: 0 0 12px rgba(253,230,138,0.8);
+    letter-spacing: 0.35em;
+  }
+
   @keyframes fadeDown {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -89,6 +101,8 @@
     position: relative;
     width: min(500px, 92vw);
     animation: fadeUp 2s ease forwards;
+    transition: transform 0.15s ease-out;
+    will-change: transform;
   }
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(40px); }
@@ -100,6 +114,7 @@
     border-radius: 50%;
     pointer-events: none;
     animation: orbPulse var(--od) ease-in-out infinite;
+    transition: transform 0.2s ease-out;
   }
   @keyframes orbPulse {
     0%,100% { opacity: 0.3; transform: scale(1); }
@@ -119,6 +134,31 @@
     10% { opacity: 0.8; }
     90% { opacity: 0.6; }
     100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+  }
+
+  /* Double‑click hint */
+  .hint-message {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: rgba(196,181,253,0.6);
+    text-shadow: 0 0 6px rgba(167,139,250,0.3);
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+    transition: opacity 0.5s ease;
+    animation: hintPulse 3s ease-in-out infinite;
+    cursor: default;
+  }
+  .hint-message:hover {
+    opacity: 1;
+    color: rgba(253,230,138,0.8);
+    text-shadow: 0 0 10px rgba(253,230,138,0.4);
+  }
+  @keyframes hintPulse {
+    0%,100% { opacity: 0.5; }
+    50% { opacity: 0.9; }
   }
 
   .letter-btn {
@@ -183,7 +223,7 @@
     border: 1px solid rgba(196,181,253,0.25);
     border-radius: 20px;
     padding: clamp(28px, 5vw, 52px);
-    max-width: 600px;
+    max-width: 650px;
     width: 100%;
     max-height: 85vh;
     overflow-y: auto;
@@ -273,6 +313,29 @@
     50% { opacity: 1; transform: scale(1.5) translateY(-15px); }
     100% { opacity: 0; transform: scale(0.5) translateY(-30px); }
   }
+
+  /* Secret Toast Message */
+  .secret-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20, 15, 40, 0.75);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(253, 230, 138, 0.6);
+    color: #fde68a;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+    z-index: 300;
+    white-space: nowrap;
+    box-shadow: 0 0 35px rgba(167, 139, 250, 0.3);
+  }
 </style>
 </head>
 <body>
@@ -283,7 +346,7 @@
 <div class="scene">
   <div class="title-area">
     <h1>For Angel P.🌙</h1>
-    <p>Digital Bouquet Made By Your Boyfriend 💘</p>
+    <p>Digital Bouquet Made By <span class="highlight">Your Boyfriend</span> 💘</p>
   </div>
 
   <div class="bouquet-wrap" id="bouquetWrap">
@@ -367,8 +430,8 @@
       <path d="M218 512 Q250 503 282 512" fill="none" stroke="#7c3aed" stroke-width="1.5" opacity="0.7"/>
       <path d="M230 505 Q250 515 270 505 Q265 520 250 522 Q235 520 230 505Z" fill="#6d28d9" opacity="0.8"/>
 
-      <!-- FLOWER 1: Large purple rose (center back, tallest) -->
-      <g transform="translate(250,210)" filter="url(#softGlow)">
+      <!-- FLOWER 1: Large purple rose (center) - INTERACTIVE (double‑click) -->
+      <g id="centerRose" transform="translate(250,210)" filter="url(#softGlow)" style="cursor: pointer;">
         <g style="animation:flowerSway1 4s ease-in-out infinite;">
           <ellipse cx="0" cy="-38" rx="16" ry="26" fill="url(#gPurple)" opacity="0.75"/>
           <ellipse cx="0" cy="-38" rx="16" ry="26" fill="url(#gPurple)" opacity="0.75" transform="rotate(45)"/>
@@ -392,7 +455,7 @@
         </g>
       </g>
 
-      <!-- FLOWER 2: Pink rose (left, mid height) -->
+      <!-- FLOWER 2: Pink rose (left) -->
       <g transform="translate(165,265)" filter="url(#glow)">
         <g style="animation:flowerSway2 5s ease-in-out infinite;">
           <ellipse cx="0" cy="-30" rx="13" ry="21" fill="url(#gPink)" opacity="0.8" transform="rotate(0)"/>
@@ -412,7 +475,7 @@
         </g>
       </g>
 
-      <!-- FLOWER 3: Blue moonflower (right, mid height) -->
+      <!-- FLOWER 3: Blue moonflower (right) -->
       <g transform="translate(335,260)" filter="url(#glow)">
         <g style="animation:flowerSway3 4.5s ease-in-out infinite;">
           <ellipse cx="0" cy="-32" rx="14" ry="22" fill="url(#gBlue)" opacity="0.75" transform="rotate(0)"/>
@@ -434,7 +497,7 @@
         </g>
       </g>
 
-      <!-- FLOWER 4: Gold flower (left of center) -->
+      <!-- FLOWER 4: Gold flower -->
       <g transform="translate(200,305)" filter="url(#glow)">
         <g style="animation:flowerSway2 6s ease-in-out infinite;">
           <ellipse cx="0" cy="-26" rx="11" ry="18" fill="url(#gGold)" opacity="0.85" transform="rotate(0)"/>
@@ -448,7 +511,7 @@
         </g>
       </g>
 
-      <!-- FLOWER 5: Rose (right of center) -->
+      <!-- FLOWER 5: Rose -->
       <g transform="translate(302,310)" filter="url(#glow)">
         <g style="animation:flowerSway3 5.5s ease-in-out infinite;">
           <ellipse cx="0" cy="-25" rx="11" ry="19" fill="url(#gRose)" opacity="0.85" transform="rotate(0)"/>
@@ -461,7 +524,7 @@
         </g>
       </g>
 
-      <!-- FLOWER 6: Tiny lavender (far left) -->
+      <!-- FLOWER 6: Tiny lavender -->
       <g transform="translate(130,320)" filter="url(#glow)">
         <g style="animation:flowerSway1 7s ease-in-out infinite;">
           <ellipse cx="0" cy="-20" rx="9" ry="15" fill="url(#gLavender)" opacity="0.9" transform="rotate(0)"/>
@@ -475,7 +538,7 @@
         </g>
       </g>
 
-      <!-- FLOWER 7: Tiny blue (far right) -->
+      <!-- FLOWER 7: Tiny blue -->
       <g transform="translate(368,325)" filter="url(#glow)">
         <g style="animation:flowerSway2 6.5s ease-in-out infinite;">
           <ellipse cx="0" cy="-19" rx="9" ry="14" fill="url(#gBlue)" opacity="0.9" transform="rotate(0)"/>
@@ -488,7 +551,7 @@
         </g>
       </g>
 
-      <!-- FLOWER 8: Pink bud (back left) -->
+      <!-- FLOWER 8: Pink bud -->
       <g transform="translate(185,240)" filter="url(#glow)">
         <g style="animation:flowerSway3 5s ease-in-out infinite;">
           <ellipse cx="0" cy="-22" rx="10" ry="16" fill="url(#gPink)" opacity="0.7" transform="rotate(0)"/>
@@ -502,7 +565,7 @@
         </g>
       </g>
 
-      <!-- FLOWER 9: Purple bud (back right) -->
+      <!-- FLOWER 9: Purple bud -->
       <g transform="translate(315,245)" filter="url(#glow)">
         <g style="animation:flowerSway1 5.8s ease-in-out infinite;">
           <ellipse cx="0" cy="-21" rx="10" ry="15" fill="url(#gPurple)" opacity="0.7" transform="rotate(0)"/>
@@ -516,7 +579,7 @@
         </g>
       </g>
 
-      <!-- Floating sparkles / stars around bouquet -->
+      <!-- Floating sparkles -->
       <g fill="#fde68a" opacity="0.9">
         <polygon points="130,200 133,210 143,210 135,216 138,226 130,220 122,226 125,216 117,210 127,210" style="animation:starSpin 3s linear infinite;transform-origin:130px 213px;"/>
         <polygon points="370,190 372,198 380,198 374,203 376,211 370,206 364,211 366,203 360,198 368,198" style="animation:starSpin 4s linear infinite reverse;transform-origin:370px 200px;"/>
@@ -524,7 +587,6 @@
         <polygon points="385,300 387,306 393,306 388,310 390,316 385,312 380,316 382,310 377,306 383,306" style="animation:starSpin 3.5s linear infinite reverse;transform-origin:385px 308px;"/>
       </g>
 
-      <!-- Tiny glowing dots -->
       <g fill="white">
         <circle cx="150" cy="250" r="2" style="animation:twinkle2 2s ease-in-out infinite;"/>
         <circle cx="352" cy="240" r="1.5" style="animation:twinkle2 3s ease-in-out infinite 0.5s;"/>
@@ -560,96 +622,164 @@
     </svg>
   </div>
 
-  <button class="letter-btn" id="letterBtn" onclick="openLetter()">✦ Read my letter to you ✦</button>
+  <!-- DOUBLE‑CLICK HINT -->
+  <div class="hint-message">Hint: double‑click the largest flower ✨</div>
+
+  <button class="letter-btn" id="letterBtn" onclick="openLetter()">✦ Read this letter I made for you ✦</button>
   <div class="bottom-name">Angel Acevedo Pobadora ✦ with all my love</div>
 </div>
 
-<!-- Letter overlay -->
+<!-- Letter overlay with NEW content -->
 <div class="letter-overlay" id="letterOverlay">
   <div class="letter-card">
     <button class="close-btn" onclick="closeLetter()">✕</button>
     <div class="letter-deco">
       <span>🌙 ✦ 🌸</span>
     </div>
-    <div class="letter-to">For my Angel, my little dragon,</div>
+    <div class="letter-to">To my Angel, sorry from keeping you curious...</div>
     <div class="letter-body">
-      <p>My love,</p>
-      <p>I made this little something for you — <span class="tagalog">para sa 'yo</span>, because you deserve every kind of beautiful thing this world has to offer, even when all I can give right now is a digital bouquet made with a whole heart.</p>
-      <p>I wish I could hand you real flowers <span class="tagalog">pero di pa abot sa budget — T^T —</span> but until then, please know that I crafted every petal of this with you in my mind and you in my chest. <span class="tagalog">Eto muna po</span>, and I hope it still makes you smile. :3</p>
-      <p>There are no words — truly, none — that could ever fit how grateful I am that you exist in my life. You walked in and somehow made everything brighter, warmer, and more worth waking up for. You are not just someone I love; you are someone who has made me better simply by being you.</p>
-      <p>So here is my bouquet, made of moonlight and flowers that glow the way you make me feel — like the whole sky lit up just because you're there.</p>
+      <p>My sweet and pretty babi,</p>
+      <p>I made this little something po <span class="tagalog">para sa 'yo</span>, I hope you'll like it 😔, you deserve all the good and every beautiful thing this world has to offer.</p>
+      <p>I wish I could give you real bouquet rn po pero pahabol ko nalang yon soon po, am sorry T^T but until then babii ko, please know that I made this bouquet with you in my mind and heart, every petal represents on how you made my life shine when you stepped into it. Eto muna po, and I hope it still makes you smile :3</p>
+      <p>There are no exact/right words that could perfectly describe how grateful I am that you came and exist in my life my girlfriend. You walked in and somehow made everything brighter, warmer, and more worth living for. You are not just someone that I love, you are someone who has made me better simply by being you.</p>
       <p style="font-size:1.25rem;color:#fde68a;text-align:center;margin:20px 0;text-shadow:0 0 15px rgba(253,230,138,0.5);">I LOVE YOU SO SO MUCH. 🌙</p>
-      <p>No distance, no budget, no limitation can ever shrink that. <span class="tagalog">Mahal na mahal kita, babi ko. Lagi.</span></p>
+      <p>There's nothing that could ever stop me from showing you how much I love and care for you, my babi. Not the distance, not the budget, not even my busy schedule. My love for you has only grown stronger since the day we first met, up to this day. <span class="tagalog">Mahal na mahal kita always po, babi ko.</span> Let's explore this life and our future together, side by side, okay po? through ups and down, I'll be with you as long as you allow me to. I LOVE YOU SO MUCH MY ANGEL 🥹.</p>
+      <p>This digital bouquet is a token of appreciation and my first gift to you as my official girlfriend po 😚 You can access this anywhere and anytime you want po.</p>
     </div>
-    <div class="letter-sig">— yours always ✦</div>
+    <div class="letter-sig">— mon amour, A.L.R ✦</div>
   </div>
 </div>
 
+<!-- Secret Toast -->
+<div class="secret-toast" id="secretToast">✨ You made my heart feel safe and at peace. ✨</div>
+
 <script>
-  // Generate stars
-  const starsEl = document.getElementById('stars');
-  for (let i = 0; i < 160; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const size = Math.random() * 2.5 + 0.5;
-    s.style.cssText = `
-      width:${size}px;height:${size}px;
-      top:${Math.random()*100}%;left:${Math.random()*100}%;
-      --d:${2+Math.random()*4}s;
-      animation-delay:${Math.random()*5}s;
-    `;
-    starsEl.appendChild(s);
-  }
+  (function(){
+    "use strict";
 
-  // Floating petals
-  const petalChars = ['✿','❀','✾','❃','❋','✽'];
-  const petalColors = ['rgba(196,181,253,0.7)','rgba(244,114,182,0.7)','rgba(253,230,138,0.6)','rgba(147,197,253,0.7)','rgba(251,207,232,0.7)'];
-  function spawnPetal() {
-    const p = document.createElement('div');
-    p.className = 'petal';
-    const dur = 6 + Math.random()*8;
-    p.textContent = petalChars[Math.floor(Math.random()*petalChars.length)];
-    p.style.cssText = `
-      left:${Math.random()*100}%;top:-20px;
-      color:${petalColors[Math.floor(Math.random()*petalColors.length)]};
-      --pd:${dur}s;
-      animation-delay:${Math.random()*2}s;
-      font-size:${10+Math.random()*10}px;
-    `;
-    document.body.appendChild(p);
-    setTimeout(()=>p.remove(), (dur+2)*1000);
-  }
-  setInterval(spawnPetal, 800);
-
-  // Sparkles on click
-  document.addEventListener('click', function(e) {
-    if (e.target.closest('.letter-overlay') || e.target.closest('.letter-btn') || e.target.closest('.close-btn')) return;
-    for (let i = 0; i < 5; i++) {
-      const sp = document.createElement('div');
-      sp.className = 'sparkle';
-      sp.textContent = ['✦','✧','⋆','★','✸'][Math.floor(Math.random()*5)];
-      sp.style.cssText = `
-        left:${e.clientX + (Math.random()-0.5)*40}px;
-        top:${e.clientY + (Math.random()-0.5)*40}px;
-        color:${petalColors[Math.floor(Math.random()*petalColors.length)]};
-        animation-delay:${Math.random()*0.2}s;
+    // --- 1. Stars generation ---
+    const starsEl = document.getElementById('stars');
+    for (let i = 0; i < 160; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const size = Math.random() * 2.5 + 0.5;
+      s.style.cssText = `
+        width:${size}px;height:${size}px;
+        top:${Math.random()*100}%;left:${Math.random()*100}%;
+        --d:${2+Math.random()*4}s;
+        animation-delay:${Math.random()*5}s;
       `;
-      document.body.appendChild(sp);
-      setTimeout(()=>sp.remove(), 800);
+      starsEl.appendChild(s);
     }
-  });
 
-  function openLetter() {
-    document.getElementById('letterOverlay').classList.add('open');
-    document.getElementById('letterBtn').classList.add('active');
-  }
-  function closeLetter() {
-    document.getElementById('letterOverlay').classList.remove('open');
-    document.getElementById('letterBtn').classList.remove('active');
-  }
-  document.getElementById('letterOverlay').addEventListener('click', function(e) {
-    if (e.target === this) closeLetter();
-  });
+    // --- 2. Floating petals (original colorful ones) ---
+    const petalChars = ['✿','❀','✾','❃','❋','✽'];
+    const petalColors = ['rgba(196,181,253,0.7)','rgba(244,114,182,0.7)','rgba(253,230,138,0.6)','rgba(147,197,253,0.7)','rgba(251,207,232,0.7)'];
+    function spawnPetal() {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      const dur = 6 + Math.random()*8;
+      p.textContent = petalChars[Math.floor(Math.random()*petalChars.length)];
+      p.style.cssText = `
+        left:${Math.random()*100}%;top:-20px;
+        color:${petalColors[Math.floor(Math.random()*petalColors.length)]};
+        --pd:${dur}s;
+        animation-delay:${Math.random()*2}s;
+        font-size:${10+Math.random()*10}px;
+      `;
+      document.body.appendChild(p);
+      setTimeout(()=>p.remove(), (dur+2)*1000);
+    }
+    setInterval(spawnPetal, 800);
+
+    // --- 3. Sparkles on click ---
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.letter-overlay') || e.target.closest('.letter-btn') || e.target.closest('.close-btn')) return;
+      for (let i = 0; i < 5; i++) {
+        const sp = document.createElement('div');
+        sp.className = 'sparkle';
+        sp.textContent = ['✦','✧','⋆','★','✸'][Math.floor(Math.random()*5)];
+        sp.style.cssText = `
+          left:${e.clientX + (Math.random()-0.5)*40}px;
+          top:${e.clientY + (Math.random()-0.5)*40}px;
+          color:${petalColors[Math.floor(Math.random()*petalColors.length)]};
+          animation-delay:${Math.random()*0.2}s;
+        `;
+        document.body.appendChild(sp);
+        setTimeout(()=>sp.remove(), 800);
+      }
+    });
+
+    // --- 4. Letter Modal ---
+    window.openLetter = function() {
+      document.getElementById('letterOverlay').classList.add('open');
+      document.getElementById('letterBtn').classList.add('active');
+    };
+    window.closeLetter = function() {
+      document.getElementById('letterOverlay').classList.remove('open');
+      document.getElementById('letterBtn').classList.remove('active');
+    };
+    document.getElementById('letterOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeLetter();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && document.getElementById('letterOverlay').classList.contains('open')) {
+        closeLetter();
+      }
+    });
+
+    // --- 5. Parallax Effect (mouse move) ---
+    const bouquetWrap = document.getElementById('bouquetWrap');
+    const orbs = document.querySelectorAll('.glow-orb');
+    document.addEventListener('mousemove', (e) => {
+      if (!bouquetWrap) return;
+      const xAxis = (window.innerWidth / 2 - e.clientX) / 45;
+      const yAxis = (window.innerHeight / 2 - e.clientY) / 45;
+      bouquetWrap.style.transform = `perspective(1000px) rotateY(${xAxis * 0.4}deg) rotateX(${-yAxis * 0.4}deg) translateZ(6px)`;
+      orbs.forEach((orb, idx) => {
+        const speed = 1.8 + idx * 0.2;
+        orb.style.transform = `translate(${xAxis * speed}px, ${yAxis * speed}px)`;
+      });
+    });
+    document.addEventListener('mouseleave', () => {
+      bouquetWrap.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) translateZ(0)';
+      orbs.forEach(orb => orb.style.transform = 'translate(0,0)');
+    });
+
+    // --- 6. EASTER EGG: DOUBLE‑CLICK on center rose => BLOOM ---
+    const centerRose = document.getElementById('centerRose');
+    const secretToast = document.getElementById('secretToast');
+    
+    if (centerRose) {
+      centerRose.addEventListener('dblclick', function(e) {
+        e.stopPropagation();
+        
+        // BLOOM EFFECT: pulse & glow
+        bouquetWrap.style.transition = 'filter 0.7s';
+        bouquetWrap.style.filter = 'drop-shadow(0 0 50px rgba(253,230,138,0.8)) brightness(1.25)';
+        setTimeout(() => bouquetWrap.style.filter = '', 800);
+        
+        // Show secret message
+        secretToast.style.opacity = '1';
+        setTimeout(() => secretToast.style.opacity = '0', 2500);
+        
+        // Burst extra petals
+        for (let i=0; i<15; i++) {
+          setTimeout(() => spawnPetal(), i*40);
+        }
+        
+        // Quick pulse animation on all flowers
+        const flowers = document.querySelectorAll('svg g[filter]');
+        flowers.forEach(g => g.style.animation = 'none');
+        setTimeout(() => flowers.forEach(g => g.style.animation = ''), 20);
+      });
+    }
+
+    // Prevent text selection on double‑click for the whole page
+    document.addEventListener('mousedown', (e) => {
+      if (e.target.closest('#centerRose')) e.preventDefault();
+    });
+  })();
 </script>
 </body>
 </html>
